@@ -8,7 +8,7 @@ class Book extends React.Component {
         return (
             <div className="book">
                 <div className="book-top">
-                    <BookCover width={128} height={193} url="http://books.google.com/books/content?id=PGR2AwAAQBAJ&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE73-GnPVEyb7MOCxDzOYF1PTQRuf6nCss9LMNOSWBpxBrz8Pm2_mFtWMMg_Y1dx92HT7cUoQBeSWjs3oEztBVhUeDFQX6-tWlWz1-feexS0mlJPjotcwFqAg6hBYDXuK_bkyHD-y&source=gbs_api" />
+                    <BookCover width={this.props.cover.width} height={this.props.cover.height} url={this.props.cover.url} />
                     <BookShelfChanger />
                 </div>
                 <div className="book-title">{this.props.title}</div>
@@ -21,6 +21,7 @@ class Book extends React.Component {
 Book.propTypes = {
     title: PropTypes.string.isRequired,
     authors: PropTypes.string.isRequired,
+    cover: PropTypes.object.isRequired
 };
 
 export default Book;
