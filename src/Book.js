@@ -13,7 +13,7 @@ class Book extends React.Component {
                         <BookShelfChanger />
                     </div>
                     <div className="book-title">{this.props.title}</div>
-                    <div className="book-authors">{this.props.authors}</div>
+                    {this.props.authors.map((author) => <div key={author} className="book-authors">{author}</div>)}
                 </div>
             </li>
         );
@@ -22,7 +22,7 @@ class Book extends React.Component {
 
 Book.propTypes = {
     title: PropTypes.string.isRequired,
-    authors: PropTypes.string.isRequired,
+    authors: PropTypes.arrayOf(PropTypes.string).isRequired,
     thumbnail: PropTypes.string.isRequired
 };
 
