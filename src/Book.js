@@ -9,7 +9,7 @@ class Book extends React.Component {
             <li>
                 <div className="book">
                     <div className="book-top">
-                        <BookCover width={this.props.cover.width} height={this.props.cover.height} url={this.props.cover.url} />
+                        <BookCover thumbnail={this.props.thumbnail} />
                         <BookShelfChanger />
                     </div>
                     <div className="book-title">{this.props.title}</div>
@@ -23,7 +23,7 @@ class Book extends React.Component {
 Book.propTypes = {
     title: PropTypes.string.isRequired,
     authors: PropTypes.string.isRequired,
-    cover: PropTypes.object.isRequired
+    thumbnail: PropTypes.string.isRequired
 };
 
 export default Book;

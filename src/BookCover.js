@@ -5,18 +5,16 @@ class BookCover extends React.Component {
     render() {
         return (
             <div className="book-cover" style={{
-                width: this.props.width,
-                height: this.props.height,
-                backgroundImage: "url(" + this.props.url + ")" 
+                width: 128,
+                height: 192,
+                backgroundImage: "url(" + this.props.thumbnail + ")" 
             }}></div>
         );
     }
 }
 
 BookCover.propTypes = {
-    url: PropTypes.string.isRequired,
-    width: PropTypes.number.isRequired,
-    height: PropTypes.number.isRequired
+    thumbnail: PropTypes.string.isRequired,
 };
 
 export default BookCover;
