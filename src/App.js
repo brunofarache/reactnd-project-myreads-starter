@@ -1,5 +1,5 @@
 import React from 'react'
-// import * as BooksAPI from './BooksAPI'
+import * as BooksAPI from './BooksAPI'
 import './App.css'
 import Book from './Book.js'
 import BookShelf from './BookShelf';
@@ -18,6 +18,7 @@ class BooksApp extends React.Component {
 				title: 'Currently Reading',
 				books: [
 					{
+						id: '1',
 						title: 'To Kill a Mockingbird',
 						authors: 'Harper Lee',
 						cover: {
@@ -27,6 +28,7 @@ class BooksApp extends React.Component {
 						}
 					},
 					{
+						id: '2',
 						title: "Ender's Game",
 						authors: 'Orson Scott Card',
 						cover: {
@@ -42,6 +44,7 @@ class BooksApp extends React.Component {
 				title: 'Want to Read',
 				books: [
 					{
+						id: '3',
 						title: '1776',
 						authors: 'David McCullough',
 						cover: {
@@ -51,6 +54,7 @@ class BooksApp extends React.Component {
 						}
 					},
 					{
+						id: '4',
 						title: "Harry Potter and the Sorcerer's Stone",
 						authors: 'J.K. Rowling',
 						cover: {
@@ -66,6 +70,7 @@ class BooksApp extends React.Component {
 				title: 'Read',
 				books: [
 					{
+						id: '5',
 						title: 'The Hobbit',
 						authors: 'J.R.R. Tolkien',
 						cover: {
@@ -75,6 +80,7 @@ class BooksApp extends React.Component {
 						}
 					},
 					{
+						id: '6',
 						title: "Oh, the Places You'll Go!",
 						authors: 'Seuss',
 						cover: {
@@ -84,6 +90,7 @@ class BooksApp extends React.Component {
 						}
 					},
 					{
+						id: '7',
 						title: 'The Adventures of Tom Sawyer',
 						authors: 'Mark Twain',
 						cover: {
@@ -99,6 +106,10 @@ class BooksApp extends React.Component {
 
 	render() {
 		const { shelves } = this.state;
+
+		BooksAPI.getAll().then((books) => {
+			console.log(books);
+		});
 
 		return (
 			<div className="app">
@@ -131,9 +142,10 @@ class BooksApp extends React.Component {
 						<div className="list-books-content">
 							<div>
 								{shelves.map(shelf => (
-									<BookShelf title={shelf.title}>
+									<BookShelf key={shelf.title} title={shelf.title}>
 										{shelf.books.map(book => (
 											<Book
+												key={book.id}
 												title={book.title}
 												authors={book.authors}
 												cover={book.cover} />		
