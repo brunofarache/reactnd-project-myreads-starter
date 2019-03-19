@@ -16,6 +16,7 @@ class BooksApp extends React.Component {
 		shelves: [
 			{
 				title: 'Currently Reading',
+				id: 'currentlyReading',
 				books: [
 					{
 						id: '1',
@@ -38,6 +39,7 @@ class BooksApp extends React.Component {
 		,
 			{
 				title: 'Want to Read',
+				id: 'wantToRead',
 				books: [
 					{
 						id: '3',
@@ -60,6 +62,7 @@ class BooksApp extends React.Component {
 		,
 			{
 				title: 'Read',
+				id: 'read',
 				books: [
 					{
 						id: '5',
@@ -128,7 +131,7 @@ class BooksApp extends React.Component {
 						<div className="list-books-content">
 							<div>
 								{shelves.map(shelf => (
-									<BookShelf key={shelf.title} title={shelf.title}>
+									<BookShelf key={shelf.id} title={shelf.title}>
 										{shelf.books.map(book => (
 											<Book
 												key={book.id}
