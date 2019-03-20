@@ -13,44 +13,45 @@ class BooksApp extends React.Component {
 		 * pages, as well as provide a good URL they can bookmark and share.
 		 */
 		showSearchPage: false,
-		shelves: {
-			'currentlyReading': {
-				title: 'Currently Reading',
-				books: []
-			},
-			'wantToRead': {
-				title: 'Want to Read',
-				books: []
-			},
-			'read': {
-				title: 'Read',
-				books: []
-			}
-		}
+		books: []
 	}
 
+	onChangeShelf = (id, shelf) => {
+		this.setState({
+			books: this.state.books.map(book => {
+				if (book.id === id) {
+					book.shelf = shelf;
+				}
+	
+				return book;
+			})
+		});
+    }
+
 	componentDidMount() {
-		const { shelves } = this.state;
-
 		BooksAPI.getAll().then((books) => {
-			books.forEach(book => {
-				const {id, title, authors, imageLinks} = book;
-
-				shelves[book.shelf].books.push({
-					id,
-					title,
-					authors,
-					imageLinks
-				});
-			});
-
-			this.setState(shelves);
+			this.setState({books});
 		});
 	}
 
 	render() {
-		const { shelves } = this.state;
-		const { currentlyReading, wantToRead, read} = shelves;
+		const shelves = [
+			{
+				id: 'currentlyReading',
+				title: 'Currently Reading',
+				books: this.state.books.filter(book => (book.shelf === 'currentlyReading'))
+			},
+			{
+				id: 'wantToRead',
+				title: 'Want to Read',
+				books: this.state.books.filter(book => (book.shelf === 'wantToRead'))
+			},
+			{
+				id: 'read',
+				title: 'Read',
+				books: this.state.books.filter(book => (book.shelf === 'read'))
+			}
+		];
 
 		return (
 			<div className="app">
@@ -82,35 +83,17 @@ class BooksApp extends React.Component {
 						</div>
 						<div className="list-books-content">
 							<div>
-								<BookShelf key={currentlyReading.id} title={currentlyReading.title}>
-									{currentlyReading.books.map(book => (
-										<Book
-											key={book.id}
-											title={book.title}
-											authors={book.authors}
-											thumbnail={book.imageLinks.thumbnail} />		
-									))}
-								</BookShelf>
-
-								<BookShelf key={wantToRead.id} title={wantToRead.title}>
-									{wantToRead.books.map(book => (
-										<Book
-											key={book.id}
-											title={book.title}
-											authors={book.authors}
-											thumbnail={book.imageLinks.thumbnail} />		
-									))}
-								</BookShelf>
-
-								<BookShelf key={read.id} title={read.title}>
-									{read.books.map(book => (
-										<Book
-											key={book.id}
-											title={book.title}
-											authors={book.authors}
-											thumbnail={book.imageLinks.thumbnail} />		
-									))}
-								</BookShelf>
+								{shelves.map(shelve => (
+									<BookShelf key={shelve.id} title={shelve.title}>
+										{shelve.books.map(book => (
+											<Book
+												key={book.id}
+												onChangeShelf={this.onChangeShelf}
+												{...book}
+												thumbnail={book.imageLinks.thumbnail} />		
+										))}
+									</BookShelf>
+								))}
 							</div>
 						</div>
 						<div className="open-search">

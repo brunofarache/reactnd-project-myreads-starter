@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types';
 
-// TODO: missing <li> for each Book
 class BookShelf extends React.Component {
     render() {
         return (
