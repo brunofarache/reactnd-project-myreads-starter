@@ -37,21 +37,23 @@ class BooksApp extends React.Component {
 	}
 
 	render() {
+		const sort = (a, b) => a.title.localeCompare(b.title);
+
 		const shelves = [
 			{
 				id: 'currentlyReading',
 				title: 'Currently Reading',
-				books: this.state.books.filter(book => (book.shelf === 'currentlyReading'))
+				books: this.state.books.filter(book => (book.shelf === 'currentlyReading')).sort(sort)
 			},
 			{
 				id: 'wantToRead',
 				title: 'Want to Read',
-				books: this.state.books.filter(book => (book.shelf === 'wantToRead'))
+				books: this.state.books.filter(book => (book.shelf === 'wantToRead')).sort(sort)
 			},
 			{
 				id: 'read',
 				title: 'Read',
-				books: this.state.books.filter(book => (book.shelf === 'read'))
+				books: this.state.books.filter(book => (book.shelf === 'read')).sort(sort)
 			}
 		];
 
