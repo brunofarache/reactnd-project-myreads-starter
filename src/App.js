@@ -42,6 +42,7 @@ class BooksApp extends React.Component {
 		query = query.trim();
 
 		if (query === '') {
+			this.setState({searchedBooks: []});
 			return;
 		}
 
