@@ -18,7 +18,7 @@ class Book extends React.Component {
                         <BookShelfChanger shelf={this.props.shelf} onChangeShelf={this.onChangeShelf} />
                     </div>
                     <div className="book-title">{this.props.title}</div>
-                    {this.props.authors.map((author) => <div key={author} className="book-authors">{author}</div>)}
+                    {this.props.authors && this.props.authors.map((author) => <div key={author} className="book-authors">{author}</div>)}
                 </div>
             </li>
         );
@@ -27,9 +27,9 @@ class Book extends React.Component {
 
 Book.propTypes = {
     id: PropTypes.string.isRequired,
-    shelf: PropTypes.string.isRequired,
+    shelf: PropTypes.string,
     title: PropTypes.string.isRequired,
-    authors: PropTypes.arrayOf(PropTypes.string).isRequired,
+    authors: PropTypes.arrayOf(PropTypes.string),
     thumbnail: PropTypes.string.isRequired,
     onChangeShelf: PropTypes.func.isRequired
 };

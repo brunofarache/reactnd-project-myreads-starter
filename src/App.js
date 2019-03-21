@@ -13,7 +13,8 @@ class BooksApp extends React.Component {
 		 * pages, as well as provide a good URL they can bookmark and share.
 		 */
 		showSearchPage: false,
-		books: []
+		books: [],
+		searchedBooks: []
 	}
 
 	onChangeShelf = (id, shelf) => {
@@ -28,15 +29,28 @@ class BooksApp extends React.Component {
 				})
 			});
 		});
+	}
+
+	onSearch = (query) => {
+		query = query.trim();
+
+		if (query === '') {
+			return;
+		}
+
+        BooksAPI.search(query.trim()).then(searchedBooks => {
+			this.setState({searchedBooks: searchedBooks});
+		});
     }
 
 	componentDidMount() {
 		BooksAPI.getAll().then((books) => {
-			this.setState({books});
+			this.setState({books: books});
 		});
 	}
 
 	render() {
+		const { searchedBooks } = this.state;
 		const sort = (a, b) => a.title.localeCompare(b.title);
 
 		const shelves = [
@@ -72,12 +86,20 @@ class BooksApp extends React.Component {
 									However, remember that the BooksAPI.search method DOES search by title or author. So, don't worry if
 									you don't find a specific author or title. Every search is limited by search terms.
 								*/}
-								<input type="text" placeholder="Search by title or author"/>
+								<input type="text" placeholder="Search by title or author" onChange={(event) => this.onSearch(event.target.value)} />
 
 							</div>
 						</div>
 						<div className="search-books-results">
-							<ol className="books-grid"></ol>
+							<ol className="books-grid">
+								{searchedBooks.map(book => (
+									<Book
+										key={book.id}
+										onChangeShelf={this.onChangeShelf}
+										{...book}
+										thumbnail={book.imageLinks.thumbnail} />
+								))}
+							</ol>
 						</div>
 					</div>
 				) : (
