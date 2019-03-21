@@ -20,23 +20,18 @@ class BooksApp extends React.Component {
 	onChangeShelf = (id, shelf) => {
 		BooksAPI.update({id: id}, shelf).then(() => {
 			const findByBookId = book => (book.id === id);
-			const existingBook = this.state.books.find(findByBookId);
+			let book = this.state.books.find(findByBookId);
 
-			if (existingBook) {
-				existingBook.shelf = shelf;
-
-				this.setState({
-					books: this.state.books
-				});
+			if (!book) {
+				book = this.state.searchedBooks.find(findByBookId);
+				this.state.books.push(book);
 			}
-			else {
-				const book = this.state.searchedBooks.find(findByBookId);
-				book.shelf = shelf;
 
-				this.setState({
-					books: this.state.books.concat(book)
-				});
-			}
+			book.shelf = shelf;
+
+			this.setState({
+				books: this.state.books
+			});
 		});
 	}
 
