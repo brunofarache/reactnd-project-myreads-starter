@@ -50,12 +50,20 @@ class BooksApp extends React.Component {
 				searchedBooks = [];
 			}
 
-			searchedBooks.forEach(searchedBook => {
-				const book = this.findByBookId(this.state.books, searchedBook.id);
+			searchedBooks = searchedBooks.filter(searchedBook => {
+				if (searchedBook.imageLinks && searchedBook.imageLinks.thumbnail) {
+					const book = this.findByBookId(this.state.books, searchedBook.id);
 
-				if (book) {
-					searchedBook.shelf = book.shelf;
+					if (book) {
+						searchedBook.shelf = book.shelf;
+					}
+
+					return true;
 				}
+				else {
+					return false;
+				}
+				
 			});
 
 			this.setState({searchedBooks: searchedBooks});
