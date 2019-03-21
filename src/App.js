@@ -17,13 +17,16 @@ class BooksApp extends React.Component {
 		searchedBooks: []
 	}
 
+	findByBookId = (books, id) => {
+		return books.find(book => (book.id === id));
+	}
+
 	onChangeShelf = (id, shelf) => {
 		BooksAPI.update({id: id}, shelf).then(() => {
-			const findByBookId = book => (book.id === id);
-			let book = this.state.books.find(findByBookId);
+			let book = this.findByBookId(this.state.books, id);
 
 			if (!book) {
-				book = this.state.searchedBooks.find(findByBookId);
+				book = this.findByBookId(this.state.searchedBooks, id);
 				this.state.books.push(book);
 			}
 
@@ -46,6 +49,14 @@ class BooksApp extends React.Component {
 			if (searchedBooks.error) {
 				searchedBooks = [];
 			}
+
+			searchedBooks.forEach(searchedBook => {
+				const book = this.findByBookId(this.state.books, searchedBook.id);
+
+				if (book) {
+					searchedBook.shelf = book.shelf;
+				}
+			});
 
 			this.setState({searchedBooks: searchedBooks});
 		});
@@ -84,7 +95,7 @@ class BooksApp extends React.Component {
 				{this.state.showSearchPage ? (
 					<div className="search-books">
 						<div className="search-books-bar">
-							<button className="close-search" onClick={() => this.setState({ showSearchPage: false })}>Close</button>
+							<button className="close-search" onClick={() => this.setState({ showSearchPage: false, searchedBooks: [] })}>Close</button>
 							<div className="search-books-input-wrapper">
 								{/*
 									NOTES: The search from BooksAPI is limited to a particular set of search terms.
