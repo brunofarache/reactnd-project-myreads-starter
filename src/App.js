@@ -1,12 +1,12 @@
-import React from 'react'
-import * as BooksAPI from './BooksAPI'
-import './App.css'
-import Book from './Book.js'
+import React from 'react';
+import * as BooksAPI from './BooksAPI';
+import './App.css';
+import Book from './Book.js';
 import BookShelf from './BookShelf';
+import { Route, Link } from 'react-router-dom';
 
 class BooksApp extends React.Component {
 	state = {
-		showSearchPage: false,
 		books: [],
 		searchedBooks: []
 	}
@@ -95,10 +95,10 @@ class BooksApp extends React.Component {
 
 		return (
 			<div className="app">
-				{this.state.showSearchPage ? (
+				<Route path='/search' render={() => (
 					<div className="search-books">
 						<div className="search-books-bar">
-							<button className="close-search" onClick={() => this.setState({ showSearchPage: false, searchedBooks: [] })}>Close</button>
+							<Link to='/'><button className="close-search" onClick={() => this.setState({ searchedBooks: [] })}>Close</button></Link>
 							<div className="search-books-input-wrapper">
 								<input type="text" placeholder="Search by title or author" onChange={(event) => this.onSearch(event.target.value)} />
 
@@ -116,7 +116,9 @@ class BooksApp extends React.Component {
 							</ol>
 						</div>
 					</div>
-				) : (
+				)} />
+
+				<Route exact path='/' render={() => (
 					<div className="list-books">
 						<div className="list-books-title">
 							<h1>MyReads</h1>
@@ -137,10 +139,10 @@ class BooksApp extends React.Component {
 							</div>
 						</div>
 						<div className="open-search">
-							<button onClick={() => this.setState({ showSearchPage: true })}>Add a book</button>
+							<Link to='/search'><button>Search</button></Link>
 						</div>
 					</div>
-				)}
+				)} />
 			</div>
 		)
 	}
