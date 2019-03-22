@@ -8,7 +8,8 @@ import { Route, Link } from 'react-router-dom';
 class BooksApp extends React.Component {
 	state = {
 		books: [],
-		searchedBooks: []
+		searchedBooks: [],
+		query: ''
 	}
 
 	findByBookId = (books, id) => {
@@ -34,13 +35,18 @@ class BooksApp extends React.Component {
 
 	onSearch = (query) => {
 		query = query.trim();
+		this.setState({query: query}); 
 
 		if (query === '') {
 			this.setState({searchedBooks: []});
 			return;
 		}
 
-        BooksAPI.search(query.trim()).then(searchedBooks => {
+        BooksAPI.search(query).then(searchedBooks => {
+			if (query !== this.state.query) {
+				return;
+			}
+
 			if (searchedBooks.error) {
 				searchedBooks = [];
 			}
@@ -101,7 +107,6 @@ class BooksApp extends React.Component {
 							<Link to='/'><button className="close-search" onClick={() => this.setState({ searchedBooks: [] })}>Close</button></Link>
 							<div className="search-books-input-wrapper">
 								<input type="text" placeholder="Search by title or author" onChange={(event) => this.onSearch(event.target.value)} />
-
 							</div>
 						</div>
 						<div className="search-books-results">
